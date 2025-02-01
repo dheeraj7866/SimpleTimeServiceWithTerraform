@@ -43,10 +43,8 @@ pipeline {
 
         stage('Terraform Init and Apply') {
             steps {
-                script {
-                    // Initialize and apply Terraform with the container image (Docker image with build number as tag)
+                withCredentials([awsCredentials(credentialsId: 'aws_cred')]) {
                     dir('terraform') {
-                        // Pass the container image as a variable in the Terraform apply
                         sh '''
                         terraform init \
                         -backend-config="bucket=terraform-state-dhee" \
