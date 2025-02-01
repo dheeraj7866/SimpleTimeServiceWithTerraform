@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "dheerajkr7866/simpletimeservice"  // Define your image name
+        DOCKER_TAG = "${BUILD_NUMBER}"  // Use Jenkins build number as tag
+        AWS_REGION = "us-east-1"  // Specify your AWS region
+    }
+
+    stages {
+        stage('Build App') {
+            steps {
+                script {
+                    // Navigate to the 'app' directory and build the Docker image
+                    dir('app') {
+                        sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
+                    }
+                }
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                script {
+                    // Retrieve Docker credentials from Jenkins credentials store
+                    withCredentials([usernamePassword(credentialsId: 'docker_cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        // Log in to Docker Hub using credentials
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    // Tag the Docker image and push it to Docker Hub
+                    sh 'docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${DOCKER_TAG}'
+                    sh 'docker push ${DOCKER_IMAGE}:${DOCKER_TAG}'
+                }
+            }
+        }
+
+        stage('Terraform Init and Apply') {
+            steps {
+                script {
+                    // Initialize and apply Terraform with the container image (Docker image with build number as tag)
+                    dir('terraform') {
+                        // Pass the container image as a variable in the Terraform apply
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve -var="container_image=${DOCKER_IMAGE}:${DOCKER_TAG}"'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Terraform applied successfully!'
+        }
+        failure {
+            echo 'Terraform application failed.'
+        }
+    }
+}
