@@ -58,3 +58,13 @@ variable "ecs_task_role_arn" {
   description = "The ARN of the ECS task role"
   type        = string
 }
+
+# variable "s3_bucket_name" {
+#   description = "The name of the S3 bucket to store the Terraform state"
+#   type        = string
+# }
+
+# variable "dynamodb_table_name" {
+#   description = "The name of the DynamoDB table for state locking"
+#   type        = string
+# }
