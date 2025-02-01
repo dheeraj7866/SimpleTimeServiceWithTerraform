@@ -36,10 +36,7 @@ You should see the current time displayed by the application.
 2. **Initialize Terraform Backend**
 **Note: Replace your_s3_bucket_name and your_dynamodb_table_name with your specific S3 bucket and DynamoDB table names.**
     ```bash
-    terraform init \
-      -backend-config="bucket=your_s3_bucket_name" \
-      -backend-config="dynamodb_table=your_dynamodb_table_name" \
-      -reconfigure
+    terraform init
 
 3. **AWS Configuration**
   Configure your AWS CLI with your access and secret keys
