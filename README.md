@@ -34,14 +34,31 @@ You should see the current time displayed by the application.
     cd ../terraform
 
 2. **Initialize Terraform Backend**
-
+**Note: Replace your_s3_bucket_name and your_dynamodb_table_name with your specific S3 bucket and DynamoDB table names.**
     ```bash
     terraform init \
       -backend-config="bucket=your_s3_bucket_name" \
       -backend-config="dynamodb_table=your_dynamodb_table_name" \
       -reconfigure
-3. **AWS Configuration**
 
-Configure your AWS CLI with your access and secret keys:
-  ```bash
-      aws configure
+3. **AWS Configuration**
+  Configure your AWS CLI with your access and secret keys
+
+
+   ```bash
+   aws configure
+4. **Apply Terraform Changes**
+   ```bash
+   terraform apply --auto-approve
+5. **Access the Deployed Application**
+6. **Open your browser and enter the URL:**
+   ```bash
+   http://<alb-dns-name>:5000
+
+7. **You should now see the same application running via AWS infrastructure.**
+
+
+
+
+
+
