@@ -40,10 +40,11 @@ You should see the current time displayed by the application.
 
 3. **AWS Configuration**
   Configure your AWS CLI with your access and secret keys
-
-
    ```bash
    aws configure
+4. **Terraform plan**
+   ```bash
+   terraform plan
 4. **Apply Terraform Changes**
    ```bash
    terraform apply --auto-approve
