@@ -34,7 +34,7 @@ You should see the current time displayed by the application.
     cd ../terraform
 
 2. **Initialize Terraform Backend**
-**Note: Replace your_s3_bucket_name and your_dynamodb_table_name with your specific S3 bucket and DynamoDB table names.**
+
     ```bash
     terraform init
 
