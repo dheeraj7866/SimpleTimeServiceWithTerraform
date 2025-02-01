@@ -13,13 +13,13 @@ A simple Python Flask application that displays the current time. It is containe
    cd SimpleTimeServiceWithTerraform/app
 
 2. **Build the Docker Image**
+3. **Make sure your docker is running sudo chmod 777 /var/run/docker.sock**
     ```bash
     docker build -t simpletimeservice:latest .
-
-3. **Run the Docker Container**
+4. **Run the Docker Container**
     ```bash
     docker run -d -p 5000:5000 simpletimeservice:latest
-4. **Access the Application**
+5. **Access the Application**
 
 Open your browser and navigate to:
 
