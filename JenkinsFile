@@ -47,8 +47,14 @@ pipeline {
                     // Initialize and apply Terraform with the container image (Docker image with build number as tag)
                     dir('terraform') {
                         // Pass the container image as a variable in the Terraform apply
-                        sh 'terraform init   -backend-config="bucket=terraform-state-dhee"   -backend-config="dynamodb_table=terraform-lock-table" --reconfigure'
-                        sh 'terraform apply -auto-approve -var="container_image=${DOCKER_IMAGE}:${DOCKER_TAG}"'
+                        sh '''
+                        terraform init \
+                        -backend-config="bucket=terraform-state-dhee" \
+                        -backend-config="dynamodb_table=terraform-lock-table" \
+                        -reconfigure
+
+                        terraform apply -auto-approve -var="container_image=${DOCKER_IMAGE}:${DOCKER_TAG}"
+                        '''
                     }
                 }
             }
